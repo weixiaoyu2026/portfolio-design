@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>魏小雨 · AIGC 视频设计师作品集 2026</title>
+  <meta name="creative-medium" content="interactive-prototype">
+  <meta name="description" content="魏小雨 — 能稳定量产、会搭建生产流程的 AIGC 视频设计师。作品集涵盖 AI 商业广告、AI Logo 演绎、AI 娱乐实验、传统视频模板与平面品牌设计。">
+  <link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Inter:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+SC:wght@300;400;700;900&family=Great+Vibes&family=Allura&family=Bebas+Neue&family=Oswald:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="styles.css?v=20261113">
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://sf3-scmcdn-cn.feishucdn.com/obj/feishu-static/miaoda/coding-unpkg-sdk/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://sf3-scmcdn-cn.feishucdn.com/obj/feishu-static/miaoda/coding-unpkg-sdk/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://sf3-scmcdn-cn.feishucdn.com/obj/feishu-static/miaoda/coding-unpkg-sdk/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+  <script src="assets--three.min.js?v=20261113" crossorigin="anonymous"></script>
+  <script type="text/babel" src="data--projects.js?v=20261113"></script>
+  <script type="text/babel" src="components--ScrollReveal.jsx?v=20261113"></script>
+  <script type="text/babel" src="components--Cover.jsx?v=20261113"></script>
+  <script type="text/babel" src="components--Contents.jsx?v=20261113"></script>
+  <script type="text/babel" src="components--Chapter.jsx?v=20261113"></script>
+  <script type="text/babel" src="components--CategoryPage.jsx?v=20261113"></script>
+  <script type="text/babel" src="data--designs.js?v=20261113"></script>
+  <script type="text/babel" src="components--GraphicDesign.jsx?v=20261113"></script>
+  <script type="text/babel" src="components--Evidence.jsx?v=20261113"></script>
+  <script type="text/babel" src="components--About.jsx?v=20261113"></script>
+  <script type="text/babel" src="components--Ending.jsx?v=20261113"></script>
+  <script type="text/babel" src="components--ProjectModal.jsx?v=20261113"></script>
+  <script type="text/babel" src="components--NavProgress.jsx?v=20261113"></script>
+  <script type="text/babel" src="components--backgrounds--DotField.jsx?v=20261113"></script>
+  <script type="text/babel" src="components--backgrounds--ColorBends.jsx?v=20261113"></script>
+  <script type="text/babel" src="components--backgrounds--Background.jsx?v=20261113"></script>
+  <script type="text/babel" src="app.jsx?v=20261113"></script>
+
+  <script>
+    // Hide platform-injected watermarks / brand badges / floating avatars
+    (function () {
+      var BLOCK_KEYWORDS = ['豆包', 'doubao', 'Doubao', 'AI生成', 'AI 生成', '妙搭', 'MiaoDa'];
+      var KNOWN_OWN = ['root', 'background-wrapper', 'side-nav', 'nav-progress', 'modal-backdrop', 'modal-close-btn'];
+
+      function isOurElement(el) {
+        if (!el) return false;
+        var id = el.id || '';
+        var cls = typeof el.className === 'string' ? el.className : '';
+        for (var i = 0; i < KNOWN_OWN.length; i++) {
+          if (id.indexOf(KNOWN_OWN[i]) !== -1 || cls.indexOf(KNOWN_OWN[i]) !== -1) return true;
+        }
+        // If it's inside #root, it's ours
+        if (document.getElementById('root') && document.getElementById('root').contains(el)) return true;
+        return false;
+      }
+
+      function hideIfWatermark(el) {
+        if (!el || el.nodeType !== 1) return;
+        if (isOurElement(el)) return;
+
+        var style = window.getComputedStyle(el);
+        if (style.position !== 'fixed' && style.position !== 'absolute') return;
+
+        var text = (el.textContent || '').trim().slice(0, 50);
+        if (!text) return;
+
+        for (var i = 0; i < BLOCK_KEYWORDS.length; i++) {
+          if (text.indexOf(BLOCK_KEYWORDS[i]) !== -1) {
+            el.style.display = 'none';
+            el.style.visibility = 'hidden';
+            el.style.opacity = '0';
+            el.style.pointerEvents = 'none';
+            el.setAttribute('data-hidden-watermark', '1');
+            return true;
+          }
+        }
+        return false;
+      }
+
+      function scanAll() {
+        var nodes = document.body.querySelectorAll('body > *, body > * > *');
+        for (var i = 0; i < nodes.length; i++) {
+          hideIfWatermark(nodes[i]);
+        }
+      }
+
+      // Run immediately and on DOM changes
+      if (document.body) scanAll();
+      else document.addEventListener('DOMContentLoaded', scanAll);
+
+      var mo = new MutationObserver(function (mutations) {
+        for (var i = 0; i < mutations.length; i++) {
+          var m = mutations[i];
+          for (var j = 0; j < m.addedNodes.length; j++) {
+            var node = m.addedNodes[j];
+            if (node.nodeType === 1) {
+              hideIfWatermark(node);
+              // also check children
+              var kids = node.querySelectorAll ? node.querySelectorAll('*') : [];
+              for (var k = 0; k < kids.length; k++) hideIfWatermark(kids[k]);
+            }
+          }
+        }
+      });
+
+      function startObserver() {
+        if (!document.body) return;
+        mo.observe(document.body, { childList: true, subtree: true });
+        // Periodic sweep as safety net (platform may re-inject)
+        setInterval(scanAll, 2000);
+      }
+
+      if (document.body) startObserver();
+      else document.addEventListener('DOMContentLoaded', startObserver);
+    })();
+  </script>
+</body>
+</html>
